@@ -1,0 +1,42 @@
+{
+  "name": "pp-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run --dir src/use-cases",
+    "test:e2e": "vitest run --dir src/http/controllers",
+    "test:e2e:watch": "vitest --dir src/http/controllers",
+    "test:watch": "vitest --dir src/use-cases",
+    "start:dev": "tsx watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "module": "ESNext",
+  "moduleResolution": "bundler",
+  "devDependencies": {
+    "@types/bcryptjs": "3.0.0",
+    "@types/node": "26.6.6",
+    "@types/supertest": "7.2.1",
+    "prisma": "4.10.1",
+    "supertest": "7.3.1",
+    "tsup": "9.0.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "5.4.21",
+    "vite-tsconfig-paths": "6.1.1",
+    "vitest": "1.6.1"
+  },
+  "dependencies": {
+    "22": "0.0.0",
+    "@fastify/cookie": "11.1.5",
+    "@fastify/jwt": "10.2.7",
+    "@prisma/client": "4.10.1",
+    "bcryptjs": "3.0.3",
+    "dotenv": "18.0.9",
+    "fastify": "5.12.7",
+    "zod": "4.6.7"
+  }
+}
