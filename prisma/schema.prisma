@@ -26,8 +26,8 @@ model Email {
   data            DateTime @default(now())
   content         String
   jaVisto         Boolean  @default(false)
-  idDeQuemEnviou  String
-  idDeQuemRecebeu String
+  idDeQuemEnviou  String   @default(uuid())
+  idDeQuemRecebeu String   @default(uuid())
 
   @@map("emails")
 }
