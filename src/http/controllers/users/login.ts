@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { makeLoginUseCase } from "../../../use-cases/factories/makeLoginUseCase";
+import { makeLoginUseCase } from "../../../use-cases/factories/make-login-use-case";
 import { InvalidCredentialsError } from "../../../use-cases/errors/invalid-credentials-error";
 
 export async function login(

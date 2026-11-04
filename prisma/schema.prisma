@@ -11,11 +11,13 @@ datasource db {
 }
 
 model User {
-  id           String  @id @default(uuid())
-  nome         String
-  email        String  @unique
-  senha        String
-  fotoDePerfil String?
+  id              String  @id @default(uuid())
+  nome            String
+  email           String  @unique
+  senha           String
+  fotoDePerfil    String?
+  emailsRecebidos Email[] @relation("Destinatario")
+  emailsEnviados  Email[] @relation("Remetente")
 
   @@map("users")
 }
@@ -26,8 +28,10 @@ model Email {
   data            DateTime @default(now())
   content         String
   jaVisto         Boolean  @default(false)
-  idDeQuemEnviou  String   @default(uuid())
-  idDeQuemRecebeu String   @default(uuid())
+  remetente       User     @relation("Remetente", fields: [idDeQuemEnviou], references: [id])
+  destinatario    User     @relation("Destinatario", fields: [idDeQuemRecebeu], references: [id])
+  idDeQuemEnviou  String
+  idDeQuemRecebeu String
 
   @@map("emails")
 }
