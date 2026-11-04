@@ -5,4 +5,5 @@ export interface UserRepository{
     create(data: Prisma.UserCreateInput): Promise<User>
     changeProfilePicture(linkPhoto: string, userId: string): Promise<void>
     changeName(nome: string, userId: string): Promise<void>
+    findById(userId: string): Promise<User | null>
 }

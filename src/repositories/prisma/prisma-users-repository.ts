@@ -3,6 +3,15 @@ import { prisma } from "../../lib/prisma";
 import type { UserRepository } from "../user-repository";
 
 export class PrismaUsersRepository implements UserRepository{
+    async findById(userId: string){
+        const user = prisma.user.findUnique({
+            where: {
+                id: userId,
+            }
+        })
+        
+        return user
+    }
     async changeName(nome: string, userId: string){
         await prisma.user.update({
             where: {
