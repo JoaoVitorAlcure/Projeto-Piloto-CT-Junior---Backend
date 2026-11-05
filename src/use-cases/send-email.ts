@@ -4,7 +4,7 @@ import type { UserRepository } from "../repositories/user-repository"
 import { UserNotFoundError } from "./errors/user-not-found-error"
 
 interface SendEmailRequest{
-    emailDestinatario: string,
+    emailDeDestinatario: string,
     title: string,
     content: string,
     userId: string,
@@ -17,11 +17,12 @@ interface SendEmailResponse{
 export class SendEmailUseCase {
     constructor(private emailsRepository: EmailRepository, private userRepository: UserRepository) {}
 
-    async execute({emailDestinatario, title, content, userId}:SendEmailRequest): Promise<SendEmailResponse>{
+    async execute({emailDeDestinatario, title, content, userId}:SendEmailRequest): Promise<SendEmailResponse>{
         
-        const user = await this.userRepository.findByEmail(emailDestinatario)
+        const user = await this.userRepository.findByEmail(emailDeDestinatario)
 
         if (!user){
+            console.log('Não achou o usuario')
             throw new UserNotFoundError()
         }
 

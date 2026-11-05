@@ -1,18 +1,18 @@
 import type { Email } from "@prisma/client"
 import type { EmailRepository } from "../repositories/email-repository"
 
-interface GetSendedEmailsRequest{
+interface GetSentEmailsRequest{
     userId: string
 }
 
-interface GetSendedEmailsResponse{
+interface GetSentEmailsResponse{
     emails: Email[]
 }
 
-export class GetSendedEmailsUseCase {
+export class GetSentEmailsUseCase {
     constructor(private emailsRepository: EmailRepository) {}
 
-    async execute({userId}:GetSendedEmailsRequest): Promise<GetSendedEmailsResponse>{
+    async execute({userId}:GetSentEmailsRequest): Promise<GetSentEmailsResponse>{
         
         const emails = await this.emailsRepository.fetchSendedEmails(userId)
 

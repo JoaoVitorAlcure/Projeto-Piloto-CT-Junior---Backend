@@ -6,7 +6,6 @@ export async function editName(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    console.log("chegou aqui")
     const editNameSchema = z.object({
         nome: z.string()
     })

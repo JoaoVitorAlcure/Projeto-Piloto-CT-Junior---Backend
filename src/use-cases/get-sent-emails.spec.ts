@@ -2,17 +2,17 @@ import { expect, describe, it, beforeEach } from 'vitest'
 import { hash } from 'bcryptjs'
 import { InMemoryEmailsRepository } from '../repositories/in-memory/in-memory-emails-repository'
 import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
-import { GetSendedEmailsUseCase } from './get-sended-emails'
+import { GetSentEmailsUseCase } from './get-sent-emails'
 
 let userRepository = new InMemoryUsersRepository
 let emailRepository = new InMemoryEmailsRepository
-let getSendedEmailsUseCase = new GetSendedEmailsUseCase(emailRepository)
+let getSentEmailsUseCase = new GetSentEmailsUseCase(emailRepository)
 
 describe('Get Sended Emails Use Case', () => {
     beforeEach(() => {
         userRepository = new InMemoryUsersRepository
         emailRepository = new InMemoryEmailsRepository
-        getSendedEmailsUseCase = new GetSendedEmailsUseCase(emailRepository)
+        getSentEmailsUseCase = new GetSentEmailsUseCase(emailRepository)
     })
     
     it('should be able to fetch Sended emails', async () => {
@@ -27,7 +27,7 @@ describe('Get Sended Emails Use Case', () => {
         await emailRepository.create({title: 'email enviado 2',content: '',idDeQuemEnviou: user.id,idDeQuemRecebeu: user.id})
 
 
-        const emails = await getSendedEmailsUseCase.execute({userId: user.id})
+        const emails = await getSentEmailsUseCase.execute({userId: user.id})
 
         expect(emails.emails).toHaveLength(2)
         expect(emails.emails).toContainEqual(expect.objectContaining({
