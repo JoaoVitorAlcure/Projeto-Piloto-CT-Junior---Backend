@@ -30,7 +30,7 @@ describe('Send email Use Case', () => {
         })
 
         const response = await sendEmailUseCase
-        .execute({emailDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})
+        .execute({emailDeDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})
         
         expect(response).toEqual(expect.any(Object))
         expect(response.email).toEqual(expect.objectContaining({
@@ -46,7 +46,7 @@ describe('Send email Use Case', () => {
         })
 
         const response = await sendEmailUseCase
-        .execute({emailDestinatario:'fulano@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})
+        .execute({emailDeDestinatario:'fulano@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})
         
         expect(response).toEqual(expect.any(Object))
         expect(response.email).toEqual(expect.objectContaining({
@@ -63,6 +63,6 @@ describe('Send email Use Case', () => {
         })
 
         expect(() => sendEmailUseCase
-        .execute({emailDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})).rejects.toBeInstanceOf(UserNotFoundError)
+        .execute({emailDeDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})).rejects.toBeInstanceOf(UserNotFoundError)
     })
 })
