@@ -3,6 +3,7 @@ import z from "zod";
 import { makeDeleteEmailUseCase } from "../../../use-cases/factories/make-delete-email-use-case";
 import { EmailNotFoundError } from "../../../use-cases/errors/email-not-found-error";
 import { NotAuthorizedError } from "../../../use-cases/errors/not-authorized-error";
+import { EmailAlreadySeenError } from "../../../use-cases/errors/email-already-seen-error";
 
 export async function deleteEmail(
     request: FastifyRequest,
@@ -17,13 +18,15 @@ export async function deleteEmail(
     try {
         const deleteEmailUseCase = makeDeleteEmailUseCase()
 
-        deleteEmailUseCase.execute({emailId, userId: request.user.id})
+        await deleteEmailUseCase.execute({emailId, userId: request.user.id})
 
         return reply.status(200).send()
     } catch (err) {
         if (err instanceof EmailNotFoundError){
             return reply.status(404).send({message: err.message})
         } else if (err instanceof NotAuthorizedError){
+            return reply.status(401).send({message: err.message})
+        } else if (err instanceof EmailAlreadySeenError){
             return reply.status(401).send({message: err.message})
         }
 

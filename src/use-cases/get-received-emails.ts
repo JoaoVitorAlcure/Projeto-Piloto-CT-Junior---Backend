@@ -1,4 +1,3 @@
-import type { Email } from "@prisma/client"
 import type { EmailRepository } from "../repositories/email-repository"
 
 interface GetReceivedEmailsRequest{
@@ -6,7 +5,7 @@ interface GetReceivedEmailsRequest{
 }
 
 interface GetReceivedEmailsResponse{
-    emails: Email[]
+    emails: Object[]
 }
 
 export class GetReceivedEmailsUseCase {
@@ -14,7 +13,7 @@ export class GetReceivedEmailsUseCase {
 
     async execute({userId}:GetReceivedEmailsRequest): Promise<GetReceivedEmailsResponse>{
         
-        const emails = await this.emailsRepository.fetchReceivedEmails(userId)
+        let emails = await this.emailsRepository.fetchReceivedEmails(userId)
 
         return {emails}
     }

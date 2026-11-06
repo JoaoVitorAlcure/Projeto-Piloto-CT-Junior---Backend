@@ -2,20 +2,17 @@ import type { Email } from "@prisma/client"
 import type { EmailRepository } from "../repositories/email-repository"
 import { EmailNotFoundError } from "./errors/email-not-found-error"
 import { NotAuthorizedError } from "./errors/not-authorized-error"
+import { EmailAlreadySeenError } from "./errors/email-already-seen-error"
 
 interface DeleteEmailRequest{
     emailId: string,
     userId: string
 }
 
-interface DeleteEmailResponse{
-    emails: Email[]
-}
-
 export class DeleteEmailUseCase {
     constructor(private emailsRepository: EmailRepository) {}
 
-    async execute({emailId, userId}:DeleteEmailRequest): Promise<DeleteEmailResponse>{
+    async execute({emailId, userId}:DeleteEmailRequest): Promise<void>{
         
         const email = await this.emailsRepository.findById(emailId)
 
@@ -24,15 +21,13 @@ export class DeleteEmailUseCase {
         }
 
         if (email.jaVisto){
-            throw new NotAuthorizedError()
+            throw new EmailAlreadySeenError()
         }
 
         if (email.idDeQuemEnviou != userId){
             throw new NotAuthorizedError()
         }
 
-        const novaListaEmails = await this.emailsRepository.deleteEmail(emailId)
-
-        return {emails: novaListaEmails}
+        await this.emailsRepository.deleteEmail(emailId)
     }
 }

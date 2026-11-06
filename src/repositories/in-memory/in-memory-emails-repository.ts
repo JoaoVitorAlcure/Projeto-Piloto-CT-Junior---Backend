@@ -10,7 +10,15 @@ export class InMemoryEmailsRepository implements EmailRepository {
 
     emails.sort((a, b) => b.data.getTime() - a.data.getTime())
 
-    return emails
+    const itens = emails.map(({ title: titulo, idDeQuemEnviou: enviado_por, jaVisto: visto, id: email_id}) => ({
+      titulo,
+      enviado_por,
+      visto,
+      email_id,
+    })
+  )
+
+    return itens
   }
   async create(data: Prisma.EmailUncheckedCreateInput) {
     const email = {
@@ -28,9 +36,10 @@ export class InMemoryEmailsRepository implements EmailRepository {
     return email
   }
   async deleteEmail(emailId: string) {
-    const novaLista = this.items.filter((item) => item.id != emailId)
+    const emailIdx = this.items.findIndex((item) => item.id === emailId)
 
-    return novaLista
+    this.items.splice(emailIdx, 1)
+
   }
 
   async findById(emailId: string) {
@@ -46,7 +55,14 @@ export class InMemoryEmailsRepository implements EmailRepository {
   async fetchSendedEmails(userId: string){
     const emails = this.items.filter((item) => item.idDeQuemEnviou === userId)
 
-    return emails
+    const itens = emails.map(({ title: titulo, idDeQuemEnviou: enviado_por, jaVisto: visto, id: email_id}) => ({
+      titulo,
+      enviado_por,
+      visto,
+      email_id,
+    })
+  )
+    return itens
   }
 
   async viewEmail(email: Email, userId: string){

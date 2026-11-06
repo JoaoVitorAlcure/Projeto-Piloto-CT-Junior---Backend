@@ -22,7 +22,6 @@ export class SendEmailUseCase {
         const user = await this.userRepository.findByEmail(emailDeDestinatario)
 
         if (!user){
-            console.log('Não achou o usuario')
             throw new UserNotFoundError()
         }
 

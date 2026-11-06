@@ -14,7 +14,7 @@ export async function editProfilePicture(
 
     const editProfilePictureUseCase = makeEditProfilePictureUseCase()
 
-    const response = editProfilePictureUseCase.execute({linkPhoto, userId: request.user.id})
+    await editProfilePictureUseCase.execute({linkPhoto, userId: request.user.id})
 
-    return reply.status(200).send(response)
+    return reply.status(200).send()
 }

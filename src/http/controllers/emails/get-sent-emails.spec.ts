@@ -3,6 +3,8 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../app";
 import { createAndAuthenticateUser } from '../../../utils/create-and-authenticate-user';
 import { prisma } from '../../../lib/prisma';
+import { randomUUID } from 'node:crypto';
+import { hash } from 'bcryptjs';
 
 describe('Get Sent Emails (e2e)', () => {
     beforeAll(async () => {
@@ -15,22 +17,37 @@ describe('Get Sent Emails (e2e)', () => {
 
     it('should be able to fetch all sent emails', async () => {
         const {token} = await createAndAuthenticateUser(app)
-
-        const user = await prisma.user.findFirstOrThrow()
-
-        await request(app.server).post('/email')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-            emailDeDestinatario:'johndoe@example.com',
-            title:'Email 1',
-            content: 'Conteudo'
+        
+        await request(app.server).post('/user').send({
+            nome: 'Fulano',
+            email: 'fulano@example.com',
+            senha: '123456',
         })
 
-        const response = await request(app.server).get('/sent-emails')
-        .set('Authorization', `Bearer ${token}`)
-        .send()
+        await request(app.server).post('/email')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    emailDeDestinatario:'fulano@example.com',
+                    title:'Titulo 1',
+                    content: 'Conteudo 1',
+                })
 
+
+        await request(app.server).post('/email')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    emailDeDestinatario:'fulano@example.com',
+                    title:'Titulo 2',
+                    content: 'Conteudo 2',
+                })
+
+        
+        const response = await request(app.server)
+                                .get('/sent-emails')
+                                .set('Authorization', `Bearer ${token}`)
+                                .send()
+        
         expect(response.statusCode).toEqual(200)
-        expect(response.body.emails).toHaveLength(1)
+        expect(response.body.emails).toHaveLength(2)
     })
 })

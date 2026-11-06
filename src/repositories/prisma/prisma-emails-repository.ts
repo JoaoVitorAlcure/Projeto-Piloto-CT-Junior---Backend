@@ -6,7 +6,7 @@ export class PrismaEmailsRepository implements EmailRepository {
   async fetchReceivedEmails(userId: string) {
     const emails = await prisma.email.findMany({
       where: {
-        idDeQuemEnviou: userId,
+        idDeQuemRecebeu: userId,
       },
     })
 
@@ -15,25 +15,21 @@ export class PrismaEmailsRepository implements EmailRepository {
     return emails
   }
   async create(data: Prisma.EmailUncheckedCreateInput) {
-    const email = prisma.email.create({
+    const email = await prisma.email.create({
       data,
     })
 
     return email
   }
   async deleteEmail(emailId: string) {
-    prisma.email.delete({
+    await prisma.email.delete({
       where: {
         id: emailId,
       },
     })
-
-    const novaLista = prisma.email.findMany()
-
-    return novaLista
   }
   async findById(emailId: string) {
-    const email = prisma.email.findUnique({
+    const email = await prisma.email.findUnique({
       where: {
         id: emailId,
       },
@@ -46,7 +42,7 @@ export class PrismaEmailsRepository implements EmailRepository {
     return email
   }
   async fetchSendedEmails(userId: string) {
-    const emails = prisma.email.findMany({
+    const emails = await prisma.email.findMany({
       where: {
         idDeQuemEnviou: userId,
       },
@@ -60,7 +56,7 @@ export class PrismaEmailsRepository implements EmailRepository {
     }
 
     if (email.idDeQuemRecebeu == userId) {
-      prisma.email.update({
+      await prisma.email.update({
         where: {
           id: email.id,
         },

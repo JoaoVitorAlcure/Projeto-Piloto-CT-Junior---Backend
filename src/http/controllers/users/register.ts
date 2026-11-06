@@ -9,7 +9,7 @@ export async function register(
 ) {
     const registerBodySchema = z.object({
         nome: z.string(),
-        email: z.string().email(),
+        email: z.email(),
         senha: z.string().min(6),
     })
 
@@ -18,19 +18,16 @@ export async function register(
     try {
         const registerUseCase = makeRegisterUseCase()
 
-        const { user } = await registerUseCase.execute({
+        await registerUseCase.execute({
             nome,
             email,
             senha,
         })
-
 
         return reply.status(201).send()
     } catch (err){
         if (err instanceof UserAlreadyExists){
             return reply.status(409).send({message: err.message})
         }
-
-        throw err
     }
 }

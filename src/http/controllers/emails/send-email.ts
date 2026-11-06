@@ -18,12 +18,11 @@ export async function sendEmail(
     try {
         const sendEmailUseCase = makeSendEmailUseCase()
 
-        sendEmailUseCase.execute({emailDeDestinatario, title, content, userId: request.user.id})
+        await sendEmailUseCase.execute({emailDeDestinatario, title, content, userId: request.user.id})
 
         return reply.status(200).send()
     } catch (err) {
 
-        console.log("chegou aqui")
         if (err instanceof UserNotFoundError){
             return reply.status(404).send({message: err.message})
         }

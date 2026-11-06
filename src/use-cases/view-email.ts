@@ -1,7 +1,7 @@
-import type { Email } from "@prisma/client"
 import type { EmailRepository } from "../repositories/email-repository"
 import { EmailNotFoundError } from "./errors/email-not-found-error"
 import { NotAuthorizedError } from "./errors/not-authorized-error"
+import type { UserRepository } from "../repositories/user-repository"
 
 interface ViewEmailRequest{
     emailId: string,
@@ -9,18 +9,26 @@ interface ViewEmailRequest{
 }
 
 interface ViewEmailResponse{
-    email: Email
+    titulo: string,
+    content: string,
+    enviado_por: string,
 }
 
 export class ViewEmailUseCase {
-    constructor(private emailsRepository: EmailRepository) {}
+    constructor(private emailsRepository: EmailRepository, private userRepository: UserRepository) {}
 
     async execute({emailId, userId}:ViewEmailRequest): Promise<ViewEmailResponse>{
         
-        const email = await this.emailsRepository.findById(emailId)
-
+        const email = await this.emailsRepository.findById(emailId) 
+        
         if (!email){
             throw new EmailNotFoundError()
+        }
+
+        const user = await this.userRepository.findById(email.idDeQuemEnviou)
+
+        if (!user){
+            throw new NotAuthorizedError()
         }
 
         const responseEmail = await this.emailsRepository.viewEmail(email, userId)
@@ -29,6 +37,10 @@ export class ViewEmailUseCase {
             throw new NotAuthorizedError()
         }
 
-        return {email:responseEmail}
+        return {
+            titulo: email.title,
+            content: email.content,
+            enviado_por: user.email
+        }
     }
 }

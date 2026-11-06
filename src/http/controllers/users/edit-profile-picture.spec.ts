@@ -19,6 +19,5 @@ describe('Edit Profile Picture (e2e)', () => {
         const response = await request(app.server).patch('/my-image').set('Authorization', `Bearer ${token}`).send({linkPhoto:'https://linkteste.com.br'})
         
         expect(response.statusCode).toEqual(200)
-        expect(response.text).toEqual(expect.any(String))
     })
 })

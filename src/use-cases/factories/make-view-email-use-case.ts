@@ -1,9 +1,11 @@
 import { PrismaEmailsRepository } from "../../repositories/prisma/prisma-emails-repository";
+import { PrismaUsersRepository } from "../../repositories/prisma/prisma-users-repository";
 import { ViewEmailUseCase } from '../view-email'
 
 export function makeViewEmailUseCase(){
     const emailsRepository = new PrismaEmailsRepository()
-    const viewEmailUseCase = new ViewEmailUseCase(emailsRepository)
+    const userRepository = new PrismaUsersRepository()
+    const viewEmailUseCase = new ViewEmailUseCase(emailsRepository, userRepository)
 
     return viewEmailUseCase
 }

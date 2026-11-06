@@ -29,7 +29,6 @@ describe('Delete email (e2e)', () => {
         })
 
         const response = await request(app.server).delete(`/email/${email.id}`).set('Authorization', `Bearer ${token}`).send()
-
         expect(response.statusCode).toEqual(200)
     })
 })

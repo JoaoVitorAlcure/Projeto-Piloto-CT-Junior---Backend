@@ -3,6 +3,7 @@ import { hash } from 'bcryptjs'
 import { InMemoryEmailsRepository } from '../repositories/in-memory/in-memory-emails-repository'
 import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
 import { GetSentEmailsUseCase } from './get-sent-emails'
+import { randomUUID } from 'node:crypto'
 
 let userRepository = new InMemoryUsersRepository
 let emailRepository = new InMemoryEmailsRepository
@@ -22,19 +23,19 @@ describe('Get Sended Emails Use Case', () => {
             senha: await hash('123456', 6),
         })
 
-        await emailRepository.create({title: 'titulo',content: '',idDeQuemEnviou: user.id,idDeQuemRecebeu: user.id})
+        await emailRepository.create({title: 'titulo',content: '',idDeQuemEnviou: user.id,idDeQuemRecebeu: randomUUID()})
 
-        await emailRepository.create({title: 'email enviado 2',content: '',idDeQuemEnviou: user.id,idDeQuemRecebeu: user.id})
+        await emailRepository.create({title: 'email enviado 2',content: '',idDeQuemEnviou: user.id,idDeQuemRecebeu: randomUUID()})
 
 
         const emails = await getSentEmailsUseCase.execute({userId: user.id})
 
         expect(emails.emails).toHaveLength(2)
         expect(emails.emails).toContainEqual(expect.objectContaining({
-            title: 'titulo'
+            titulo: 'titulo'
         }))
         expect(emails.emails).toContainEqual(expect.objectContaining({
-            title: 'email enviado 2'
+            titulo: 'email enviado 2'
         }))
     })
 })

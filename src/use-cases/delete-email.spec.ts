@@ -32,10 +32,10 @@ describe('Delete email Use Case', () => {
             idDeQuemRecebeu: randomUUID(),
         })
 
-        const response = await deleteEmailUseCase.execute({emailId:email.id, userId:user.id})
+        await deleteEmailUseCase.execute({emailId:email.id, userId:user.id})
         
-        expect(response.emails).toHaveLength(0)
-        expect(response.emails).toEqual([])
+        const novoEmail = await emailRepository.findById(email.id)
+        expect(novoEmail).toEqual(null)
     })
     
     it('should not be able to delete an email without being the sender', async () => {

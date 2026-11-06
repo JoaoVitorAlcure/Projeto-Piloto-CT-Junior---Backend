@@ -18,6 +18,5 @@ describe('Edit Name (e2e)', () => {
         const response = await request(app.server).patch('/my-name').set('Authorization', `Bearer ${token}`).send({nome:'Fulano'})
         
         expect(response.statusCode).toEqual(200)
-        expect(response.text).toEqual(expect.any(String))
     })
 })

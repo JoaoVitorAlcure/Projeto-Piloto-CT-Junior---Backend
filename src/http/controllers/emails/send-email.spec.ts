@@ -15,10 +15,25 @@ describe('Send email (e2e)', () => {
     it('should be able to send an email', async () => {
         const {token} = await createAndAuthenticateUser(app)
 
-        const response = await request(app.server).post('/email')
-        .set('Authorization', `Bearer ${token}`)
-        .send({emailDeDestinatario:'johndoe@example.com',title:'Titulo',content: 'Conteudo'})
 
-        expect(response.statusCode).toEqual(200)
+        await request(app.server).post('/user').send({
+                    nome: 'Fulano',
+                    email: 'fulano@example.com',
+                    senha: '123456',
+                })
+
+
+        const response1 = await request(app.server)
+                                .post('/email')
+                                .set('Authorization', `Bearer ${token}`)
+                                .send({emailDeDestinatario:'fulano@example.com',title:'Titulo',content: 'Conteudo'})
+
+        const response2 = await request(app.server)
+                                .post('/email')
+                                .set('Authorization', `Bearer ${token}`)
+                                .send({emailDeDestinatario:'fulano@example.com',title:'Titulo',content: 'Conteudo'})
+
+        expect(response1.statusCode).toEqual(200)
+        expect(response2.statusCode).toEqual(200)
     })
 })

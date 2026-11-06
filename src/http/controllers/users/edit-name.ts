@@ -14,7 +14,7 @@ export async function editName(
 
     const editNameUseCase = makeEditNameUseCase()
     
-    const response = editNameUseCase.execute({nome, userId: request.user.id})
+    await editNameUseCase.execute({nome, userId: request.user.id})
 
-    return reply.status(200).send(response)
+    return reply.status(200).send()
 }

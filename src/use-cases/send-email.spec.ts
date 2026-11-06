@@ -17,20 +17,20 @@ describe('Send email Use Case', () => {
     })
 
     it('should be able to send an email', async () => {
-        await userRepository.create({
+        const destinatario = await userRepository.create({
             nome: 'John Doe',
             email: 'johndoe@example.com',
             senha: await hash('123456', 6),
         })
 
-        const user = await userRepository.create({
+        const remetente = await userRepository.create({
             nome: 'Fulano',
             email: 'fulano@example.com',
             senha: await hash('123456', 6),
         })
 
         const response = await sendEmailUseCase
-        .execute({emailDeDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:user.id})
+        .execute({emailDeDestinatario:'johndoe@example.com', title: 'Reunião amanhã?', content: '', userId:remetente.id})
         
         expect(response).toEqual(expect.any(Object))
         expect(response.email).toEqual(expect.objectContaining({

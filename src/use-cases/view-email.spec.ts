@@ -8,13 +8,13 @@ import { EmailNotFoundError } from './errors/email-not-found-error'
 
 let userRepository = new InMemoryUsersRepository
 let emailRepository = new InMemoryEmailsRepository
-let viewEmailUseCase = new ViewEmailUseCase(emailRepository)
+let viewEmailUseCase = new ViewEmailUseCase(emailRepository, userRepository)
 
 describe('View Email Use Case', () => {
     beforeEach(() => {
         userRepository = new InMemoryUsersRepository
         emailRepository = new InMemoryEmailsRepository
-        viewEmailUseCase = new ViewEmailUseCase(emailRepository)
+        viewEmailUseCase = new ViewEmailUseCase(emailRepository, userRepository)
     })
 
     it('should be able to view a received email', async () => {
@@ -36,8 +36,8 @@ describe('View Email Use Case', () => {
         const response = await viewEmailUseCase.execute({emailId:email.id, userId:destinatario.id})
         
         expect(response).toEqual(expect.any(Object))
-        expect(response.email).toEqual(expect.objectContaining({
-            title: 'titulo'
+        expect(response).toEqual(expect.objectContaining({
+            titulo: 'titulo'
         }))
         expect(email.jaVisto).toEqual(true)
     })
@@ -62,8 +62,8 @@ describe('View Email Use Case', () => {
         const response = await viewEmailUseCase.execute({emailId:email.id, userId:remetente.id})
         
         expect(response).toEqual(expect.any(Object))
-        expect(response.email).toEqual(expect.objectContaining({
-            title: 'titulo'
+        expect(response).toEqual(expect.objectContaining({
+            titulo: 'titulo'
         }))
         expect(email.jaVisto).toEqual(false)
     })
