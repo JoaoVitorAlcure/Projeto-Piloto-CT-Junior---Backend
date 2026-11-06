@@ -20,8 +20,8 @@ export async function viewEmail(
     try {
         const viewEmailUseCase = makeViewEmailUseCase()
 
-        const email = await viewEmailUseCase.execute({emailId, userId: request.user.id})
-
+        const {email} = await viewEmailUseCase.execute({emailId, userId: request.user.id})
+        
         return reply.status(400).send(email)
     } catch (err) {
 

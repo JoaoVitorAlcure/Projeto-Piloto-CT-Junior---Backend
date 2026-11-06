@@ -5,7 +5,6 @@ import { deleteEmail } from "./delete-email"
 import { sendEmail } from "./send-email"
 import { getSentEmails } from "./get-sent-emails"
 import { viewEmail } from "./view-email"
-import { properties } from "zod"
 import { randomUUID } from "node:crypto"
 
 export async function emailsRoutes(app: FastifyInstance){
@@ -64,25 +63,10 @@ export async function emailsRoutes(app: FastifyInstance){
                 items: {
                   type: "object",
                   properties: {
-                    id: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
-                    title: {type: "string", examples:["Titulo"]},
-                    data: {type: "string", format: "date-time", examples:["2026-11-05T19:49:42.211Z"]},
-                    content: {type: "string"},
+                    titulo: {type: "string", examples:["Titulo"]},
+                    enviado_por: {type: "string"},
                     jaVisto: {type: "boolean"},
-                    idDeQuemEnviou: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
-                    idDeQuemRecebeu: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
+                    email_id: {type: "string", format:"uuid"},
                   }
                 }
               },
@@ -156,25 +140,10 @@ export async function emailsRoutes(app: FastifyInstance){
                 items: {
                   type: "object",
                   properties: {
-                    id: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
-                    title: {type: "string", examples:["Titulo"]},
-                    data: {type: "string", format: "date-time", examples:["2026-11-05T19:49:42.211Z"]},
-                    content: {type: "string"},
+                    titulo: {type: "string", examples:["Titulo"]},
+                    enviado_para: {type: "string", format:"email"},
                     jaVisto: {type: "boolean"},
-                    idDeQuemEnviou: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
-                    idDeQuemRecebeu: {
-                      type: "string",
-                      format: "uuid",
-                      examples: [randomUUID()],
-                    },
+                    email_id: {type: "string", format: "uuid", examples:[randomUUID()]}
                   }
                 }
               },

@@ -36,7 +36,7 @@ describe('View Email Use Case', () => {
         const response = await viewEmailUseCase.execute({emailId:email.id, userId:destinatario.id})
         
         expect(response).toEqual(expect.any(Object))
-        expect(response).toEqual(expect.objectContaining({
+        expect(response.email).toEqual(expect.objectContaining({
             titulo: 'titulo'
         }))
         expect(email.jaVisto).toEqual(true)
@@ -62,7 +62,7 @@ describe('View Email Use Case', () => {
         const response = await viewEmailUseCase.execute({emailId:email.id, userId:remetente.id})
         
         expect(response).toEqual(expect.any(Object))
-        expect(response).toEqual(expect.objectContaining({
+        expect(response.email).toEqual(expect.objectContaining({
             titulo: 'titulo'
         }))
         expect(email.jaVisto).toEqual(false)

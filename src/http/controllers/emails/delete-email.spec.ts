@@ -3,7 +3,6 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../app";
 import { createAndAuthenticateUser } from '../../../utils/create-and-authenticate-user';
 import { prisma } from '../../../lib/prisma';
-import { randomUUID } from 'node:crypto';
 
 describe('Delete email (e2e)', () => {
     beforeAll(async () => {

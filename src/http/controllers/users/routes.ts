@@ -5,7 +5,6 @@ import { login } from "./login"
 import { register } from "./register"
 import type { FastifyInstance } from "fastify"
 import { getProfile } from "./get-profile"
-import { properties } from "zod"
 import { randomUUID } from "node:crypto"
 
 export async function usersRoutes(app: FastifyInstance) {
@@ -52,11 +51,14 @@ export async function usersRoutes(app: FastifyInstance) {
           properties: {
             nome: { type: "string"},
             email: { type: "string", format:"email" },
-            senha: { type: "string", minLength: 6 },
+            senha: { type: "string"},
           },
         },
         response: {
-          201: { description: "Cadastro feito com sucesso" , type: "null"},
+          201: { 
+            description: "Cadastro feito com sucesso",
+            type: "null"
+          },
           409: {
             description: "Usuário já existe",
             type: "object",
@@ -64,6 +66,13 @@ export async function usersRoutes(app: FastifyInstance) {
               message: { type: "string" },
             },
           },
+          400: {
+            description: "Senha com menos de 6 caracteres",
+            type: "object",
+            properties: {
+              message: { type: "string" },
+            },
+          }
         },
       },
     },register,)

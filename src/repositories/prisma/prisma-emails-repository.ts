@@ -8,12 +8,16 @@ export class PrismaEmailsRepository implements EmailRepository {
       where: {
         idDeQuemRecebeu: userId,
       },
+      orderBy: {
+        data: "desc",
+      },
     })
 
     emails.sort((a, b) => b.data.getTime() - a.data.getTime())
 
     return emails
   }
+  
   async create(data: Prisma.EmailUncheckedCreateInput) {
     const email = await prisma.email.create({
       data,
@@ -28,6 +32,7 @@ export class PrismaEmailsRepository implements EmailRepository {
       },
     })
   }
+
   async findById(emailId: string) {
     const email = await prisma.email.findUnique({
       where: {
@@ -41,15 +46,20 @@ export class PrismaEmailsRepository implements EmailRepository {
 
     return email
   }
+
   async fetchSendedEmails(userId: string) {
     const emails = await prisma.email.findMany({
       where: {
         idDeQuemEnviou: userId,
       },
+      orderBy: {
+        data: "desc",
+      },
     })
 
     return emails
   }
+
   async viewEmail(email: Email, userId: string) {
     if (email.idDeQuemEnviou != userId && email.idDeQuemRecebeu != userId) {
       return null

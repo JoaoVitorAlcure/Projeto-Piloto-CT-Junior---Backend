@@ -9,9 +9,7 @@ interface ViewEmailRequest{
 }
 
 interface ViewEmailResponse{
-    titulo: string,
-    content: string,
-    enviado_por: string,
+    email: Object
 }
 
 export class ViewEmailUseCase {
@@ -37,10 +35,12 @@ export class ViewEmailUseCase {
             throw new NotAuthorizedError()
         }
 
-        return {
+        const emailRefatorado = {
             titulo: email.title,
             content: email.content,
             enviado_por: user.email
         }
+
+        return {email: emailRefatorado}
     }
 }

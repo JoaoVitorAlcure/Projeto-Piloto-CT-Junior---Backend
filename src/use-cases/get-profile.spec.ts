@@ -1,7 +1,5 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { hash } from 'bcryptjs'
-import { InMemoryEmailsRepository } from '../repositories/in-memory/in-memory-emails-repository'
-import { GetReceivedEmailsUseCase } from './get-received-emails'
 import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
 import { GetProfileUseCase } from './get-profile'
 import { UserNotFoundError } from './errors/user-not-found-error'
