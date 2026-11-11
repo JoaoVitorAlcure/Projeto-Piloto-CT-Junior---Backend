@@ -1,19 +1,7 @@
-# Inicialização do sistema
+# Sistema de Emails - Backend
 
-#### Inicialize o Docker
-```
-docker compose up -d
-```
-
-#### Crie o banco de dados
-```
-npx prisma migrate dev
-```
-#### Inicialize o servidor
-```
-npm run start:dev
-```
----
+#### Link:
+https://projeto-piloto-ct-junior-backend.onrender.com
 
 ## Documentação das rotas (Swagger)
 
@@ -29,8 +17,8 @@ Ou caso deseje visualizar em JSON:
 ```
 ##### Exemplo:
 ```
-http://localhost:5555/docs
-http://localhost:5555/docs/json
+url/docs
+url/docs/json
 ```
 
 ## Caminho para a pasta de imagens (Opcional)
@@ -38,3 +26,5 @@ Será a pasta **@/imgs**, na qual @ é o caminho raiz de onde o projeto está ro
 ```
 ./imgs/
 ```
+
+Lembrando que só funciona quando se roda localmente
