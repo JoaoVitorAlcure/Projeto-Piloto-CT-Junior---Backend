@@ -8,7 +8,7 @@ import { pipeline } from "node:stream/promises";
 import z from "zod";
 import { InvalidFileError } from "../../../use-cases/errors/invalid-file-error";
 import { IMG_DIR } from "../../../app";
-import { env } from "../../../../env";
+import { env } from "../../../env";
 
 export async function editProfilePictureFile(
     request: FastifyRequest,

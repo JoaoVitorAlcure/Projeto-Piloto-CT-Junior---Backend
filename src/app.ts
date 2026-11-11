@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import fastifyCookie from '@fastify/cookie';
 import { ZodError } from 'zod';
-import { env } from '../env';
+import {env} from "./env"
 import fastifyJwt from '@fastify/jwt';
 import { usersRoutes } from './http/controllers/users/routes';
 import { emailsRoutes } from './http/controllers/emails/routes';
@@ -12,6 +12,7 @@ import cors from '@fastify/cors'
 import fastifyStatic from '@fastify/static';
 import path from 'node:path';
 import fs from 'node:fs'
+import { IMG_DIR, BASE_URL } from './config';
 
 export const app = fastify({
   ajv: {plugins: [ajvFilePlugin]}
@@ -46,8 +47,6 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
-
-export const IMG_DIR = path.resolve(env.IMG_DIR ?? './imgs')
 
 app.register(fastifyMultipart, {
   limits: {
