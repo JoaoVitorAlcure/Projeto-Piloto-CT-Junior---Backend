@@ -11,6 +11,7 @@ import fastifyMultipart, { ajvFilePlugin } from '@fastify/multipart';
 import cors from '@fastify/cors'
 import fastifyStatic from '@fastify/static';
 import path from 'node:path';
+import fs from 'node:fs'
 
 export const app = fastify({
   ajv: {plugins: [ajvFilePlugin]}
@@ -55,6 +56,7 @@ app.register(fastifyMultipart, {
   },
 })
 
+fs.mkdirSync(IMG_DIR, {recursive: true})
 app.register(fastifyStatic, {
   root: IMG_DIR,
   prefix: '/imgs/'
