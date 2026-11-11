@@ -32,3 +32,9 @@ Ou caso deseje visualizar em JSON:
 http://localhost:5555/docs
 http://localhost:5555/docs/json
 ```
+
+## Caminho para a pasta de imagens (Opcional)
+Será a pasta **@/imgs**, na qual @ é o caminho raiz de onde o projeto está rodando 
+```
+./imgs/
+```

@@ -9,6 +9,8 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastifyMultipart, { ajvFilePlugin } from '@fastify/multipart';
 import cors from '@fastify/cors'
+import fastifyStatic from '@fastify/static';
+import path from 'node:path';
 
 export const app = fastify({
   ajv: {plugins: [ajvFilePlugin]}
@@ -43,12 +45,19 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
+
+export const IMG_DIR = path.resolve(env.IMG_DIR ?? './imgs')
+
 app.register(fastifyMultipart, {
-  attachFieldsToBody: true,
   limits: {
     fileSize: 5 * 1024 * 1024,
     files: 1,
   },
+})
+
+app.register(fastifyStatic, {
+  root: IMG_DIR,
+  prefix: '/imgs/'
 })
 app.register(usersRoutes)
 app.register(emailsRoutes)

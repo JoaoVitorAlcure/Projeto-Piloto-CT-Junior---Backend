@@ -112,6 +112,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.patch("/my-image-file",
     {
       onRequest: [verifyJWT],
+      validatorCompiler: () => (data) => ({ value: data }),
       schema: {
         tags: ["Users"],
         summary: "Atualiza a foto de perfil do usuário com um arquivo",
@@ -121,13 +122,16 @@ export async function usersRoutes(app: FastifyInstance) {
           required: ['file'],
           type: "object",
           properties: {
-            file: {isFile: true},
+            file: {type: 'string', format:'binary'},
           }
         },
         response: {
           201: {
             description: "Atualização da foto de perfil feita com sucesso",
-            type: "null",
+            type: "object",
+            properties: {
+              url: {type: "string"}
+            }
           },
           400: {
             description: "Tipo do arquivo invalido",
