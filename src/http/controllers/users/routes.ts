@@ -6,6 +6,7 @@ import { register } from "./register"
 import type { FastifyInstance } from "fastify"
 import { getProfile } from "./get-profile"
 import { randomUUID } from "node:crypto"
+import { editProfilePictureFile } from "./edit-profile-picture-file"
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post("/login",
@@ -107,6 +108,37 @@ export async function usersRoutes(app: FastifyInstance) {
         },
       },
     },editProfilePicture,)
+
+  app.patch("/my-image-file",
+    {
+      onRequest: [verifyJWT],
+      schema: {
+        tags: ["Users"],
+        summary: "Atualiza a foto de perfil do usuário com um arquivo",
+        security: [{ bearerAuth: [] }],
+        consumes: ['multipart/form-data'],
+        body: {
+          required: ['file'],
+          type: "object",
+          properties: {
+            file: {isFile: true},
+          }
+        },
+        response: {
+          201: {
+            description: "Atualização da foto de perfil feita com sucesso",
+            type: "null",
+          },
+          400: {
+            description: "Tipo do arquivo invalido",
+            type: "object",
+            properties: {
+              message: { type: "string" },
+            },
+          },
+        },
+      },
+    },editProfilePictureFile,)
   app.patch("/my-name", {
       onRequest: [verifyJWT],
       schema: {

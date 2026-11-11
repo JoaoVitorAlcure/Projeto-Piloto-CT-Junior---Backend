@@ -7,8 +7,12 @@ import { usersRoutes } from './http/controllers/users/routes';
 import { emailsRoutes } from './http/controllers/emails/routes';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import fastifyMultipart, { ajvFilePlugin } from '@fastify/multipart';
+import cors from '@fastify/cors'
 
-export const app = fastify()
+export const app = fastify({
+  ajv: {plugins: [ajvFilePlugin]}
+})
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
@@ -16,6 +20,9 @@ app.register(fastifyJwt, {
   }
 })
 app.register(fastifyCookie)
+app.register(cors, {
+  origin: true,
+})
 app.register(fastifySwagger, {
   openapi: {
     openapi: '3.0.3',
@@ -35,6 +42,13 @@ app.register(fastifySwagger, {
 
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
+})
+app.register(fastifyMultipart, {
+  attachFieldsToBody: true,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+    files: 1,
+  },
 })
 app.register(usersRoutes)
 app.register(emailsRoutes)
