@@ -7,8 +7,8 @@ import path from "node:path";
 import { pipeline } from "node:stream/promises";
 import z from "zod";
 import { InvalidFileError } from "../../../use-cases/errors/invalid-file-error";
-import { IMG_DIR } from "../../../app";
 import { env } from "../../../env";
+import { BASE_URL, IMG_DIR } from "../../../config";
 
 export async function editProfilePictureFile(
     request: FastifyRequest,
@@ -41,7 +41,7 @@ export async function editProfilePictureFile(
         pasta = path.join(IMG_DIR, nome)
         await pipeline(data.file, createWriteStream(pasta))
     
-        const url = `${env.BASE_URL}:${env.PORT}/imgs/${nome}`
+        const url = `${BASE_URL}:${env.PORT}/imgs/${nome}`
         return reply.status(201).send({ url })
     } catch (err) {
         if (pasta){
