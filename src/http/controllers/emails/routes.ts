@@ -180,7 +180,7 @@ export async function emailsRoutes(app: FastifyInstance){
             }
         },
         response: {
-          400: {
+          200: {
             description: "Email visualizado com sucesso",
             type: "object",
             properties: {

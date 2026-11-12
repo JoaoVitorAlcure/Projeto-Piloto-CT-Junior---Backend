@@ -33,6 +33,6 @@ describe('View Email (e2e)', () => {
                                 .set('Authorization', `Bearer ${token}`)
                                 .send()
         
-        expect(response.statusCode).toEqual(400)
+        expect(response.statusCode).toEqual(200)
     })
 })

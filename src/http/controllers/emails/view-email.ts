@@ -22,7 +22,7 @@ export async function viewEmail(
 
         const {email} = await viewEmailUseCase.execute({emailId, userId: request.user.id})
         
-        return reply.status(400).send(email)
+        return reply.status(200).send(email)
     } catch (err) {
 
         if (err instanceof EmailNotFoundError){
