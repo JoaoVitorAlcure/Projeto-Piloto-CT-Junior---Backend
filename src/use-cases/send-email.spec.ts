@@ -17,6 +17,11 @@ describe('Send email Use Case', () => {
     })
 
     it('should be able to send an email', async () => {
+        await userRepository.create({
+            nome: 'John Doe',
+            email: 'johndoe@example.com',
+            senha: await hash('123456', 6),
+        })
 
         const remetente = await userRepository.create({
             nome: 'Fulano',
