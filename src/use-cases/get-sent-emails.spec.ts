@@ -35,7 +35,6 @@ describe('Get Sended Emails Use Case', () => {
             vi.advanceTimersByTime(cincoMinutosEmMs)
         }
         const emails = await getSentEmailsUseCase.execute({userId: user.id})
-        console.log(emails)
         expect(emails.emails).toHaveLength(3)
         expect(emails.emails[0]).toEqual(expect.objectContaining({
             titulo: 'Email 3'

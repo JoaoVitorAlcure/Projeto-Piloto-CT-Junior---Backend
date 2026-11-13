@@ -35,7 +35,6 @@ app.register(fastifySwagger, {
       description: 'Um sistema que permite o cadastro de usuarios e o envio de emails e a visualizacao deles',
       version: '1.0.0'
     },
-    servers: [{url: 'http://localhost:3333'}],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
