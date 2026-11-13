@@ -1,0 +1,22 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Solicita perfil
+C -> API: GET /me (Bearer token)
+API -> MW: Valida token
+alt Usuário não autenticado
+    API --> C: 401 Não autorizado
+else Usuário autenticado
+    MW --> API: userId
+    API -> DB: Busca usuário por id
+    DB --> API: Usuário (ou nulo)
+alt Usuário não encontrado
+    API --> C: 404 Not Found
+else Usuário encontrado
+    API --> C: 200 OK + id, nome, email, fotoDePerfil
+end
+@enduml

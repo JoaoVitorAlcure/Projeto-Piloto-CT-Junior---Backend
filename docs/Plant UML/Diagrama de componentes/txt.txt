@@ -1,0 +1,58 @@
+@startuml
+top to bottom direction
+
+actor "Usuário" as U
+component "Cliente\n(Web / Mobile)" as C
+component "Middleware JWT\nvalida token e extrai userId" as MW
+
+package "Controller de Usuários" as CU {
+  component "POST /user" as R1
+  component "POST /login" as R2
+  component "GET /me" as R3
+  component "PATCH /my-name" as R4
+  component "PATCH /my-image" as R5
+  component "PATCH /my-image-file" as R6
+}
+
+package "Controller de Emails" as CE {
+  component "POST /email" as E1
+  component "GET /email/{id}" as E2
+  component "DELETE /email/{emailId}" as E3
+  component "GET /my-emails" as E4
+  component "GET /sent-emails" as E5
+}
+
+component "Serviço de Autenticação\n(cadastro, login e geração do JWT)" as SA
+component "Serviço de Usuários" as SU
+component "Serviço de Emails" as SE
+
+database "Banco de Dados" as DB
+component "Armazenamento de arquivos" as ST
+
+U --> C
+C --> R1 : sem token
+C --> R2 
+C --> MW : com token
+
+MW --> R3
+MW --> R4
+MW --> R5
+MW --> R6
+MW --> CE
+
+R1 --> SA
+R2 --> SA
+R3 --> SU
+R4 --> SU
+R5 --> SU
+R6 --> SU
+CE --> SE
+
+SA -[hidden]right- SU
+SU -[hidden]right- SE
+
+SA --> DB
+SU --> DB
+SE --> DB
+SU --> ST : foto por arquivo
+@enduml

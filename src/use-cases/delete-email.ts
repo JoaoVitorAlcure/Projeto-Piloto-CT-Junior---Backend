@@ -1,4 +1,3 @@
-import type { Email } from "@prisma/client"
 import type { EmailRepository } from "../repositories/email-repository"
 import { EmailNotFoundError } from "./errors/email-not-found-error"
 import { NotAuthorizedError } from "./errors/not-authorized-error"

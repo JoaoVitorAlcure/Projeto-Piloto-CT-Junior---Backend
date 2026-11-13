@@ -1,4 +1,4 @@
-import { Prisma, type Email, type User } from "@prisma/client"
+import { Prisma, type User } from "@prisma/client"
 import type { UserRepository } from "../user-repository"
 import { randomUUID } from "node:crypto"
 

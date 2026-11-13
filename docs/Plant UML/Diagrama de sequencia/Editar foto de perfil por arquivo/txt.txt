@@ -1,0 +1,24 @@
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+participant "Armazenamento de arquivos" as S
+database "Banco de Dados" as DB
+
+U -> C: Seleciona arquivo de imagem
+C -> API: PATCH /my-image-file (Bearer token + file)
+API -> MW: Valida token
+alt Usuário não autenticado
+    API --> C: 401 Não autorizado
+else Usuário autenticado
+    MW --> API: userId
+alt Tipo de arquivo inválido
+    API --> C: 400 Bad Request
+else Tipo válido
+    API -> S: Salva arquivo
+    S --> API: url
+    API -> DB: Atualiza fotoDePerfil com url
+    DB --> API: Atualizado
+    API --> C: 201 Created + url
+end
+@enduml

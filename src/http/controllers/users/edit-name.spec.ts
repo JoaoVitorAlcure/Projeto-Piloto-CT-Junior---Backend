@@ -13,7 +13,7 @@ describe('Edit Name (e2e)', () => {
     })
 
     it('should be able to edit the user name', async () => {
-        const {token, user} = await createAndAuthenticateUser(app)
+        const {token} = await createAndAuthenticateUser(app)
 
         const response = await request(app.server).patch('/my-name').set('Authorization', `Bearer ${token}`).send({nome:'Fulano'})
         

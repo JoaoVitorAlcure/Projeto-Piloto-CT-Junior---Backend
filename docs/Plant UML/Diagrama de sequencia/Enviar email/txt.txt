@@ -1,0 +1,21 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Preenche destinatário, título e conteúdo
+C -> API: POST /email (Bearer token)
+API -> MW: Valida token
+MW --> API: userId
+API -> DB: Busca destinatário pelo email
+DB --> API: Resultado
+alt Destinatário não encontrado
+    API --> C: 404 Not Found
+else Destinatário encontrado
+    API -> DB: Salva email (remetente = userId)
+    DB --> API: Email criado
+    API --> C: 200 OK
+end
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+left to right direction
+actor "Visitante" as V
+actor "Usuário autenticado" as U
+
+rectangle "Sistema de Email" {
+  usecase "Cadastrar-se" as UC1
+  usecase "Fazer login" as UC2
+  usecase "Editar nome" as UC3
+  usecase "Editar foto de perfil" as UC4
+  usecase "Ver informações do perfil" as UC5
+  usecase "Enviar email" as UC6
+  usecase "Visualizar email" as UC7
+  usecase "Listar emails recebidos" as UC8
+  usecase "Listar emails enviados" as UC9
+  usecase "Deletar email" as UC10
+  usecase "Validar token JWT" as UC11
+}
+
+V --> UC1
+V --> UC2
+
+U --> UC3
+U --> UC4
+U --> UC5
+U --> UC6
+U --> UC7
+U --> UC8
+U --> UC9
+U --> UC10
+
+UC3 ..> UC11 : <<include>>
+UC4 ..> UC11 : <<include>>
+UC5 ..> UC11 : <<include>>
+UC6 ..> UC11 : <<include>>
+UC7 ..> UC11 : <<include>>
+UC8 ..> UC11 : <<include>>
+UC9 ..> UC11 : <<include>>
+UC10 ..> UC11 : <<include>>
+@enduml

@@ -10,9 +10,8 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastifyMultipart, { ajvFilePlugin } from '@fastify/multipart';
 import cors from '@fastify/cors'
 import fastifyStatic from '@fastify/static';
-import path from 'node:path';
 import fs from 'node:fs'
-import { IMG_DIR, BASE_URL } from './config';
+import { IMG_DIR } from './config';
 
 export const app = fastify({
   ajv: {plugins: [ajvFilePlugin]}

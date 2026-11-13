@@ -1,0 +1,18 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Informa um link de uma imagem
+C -> API: PATCH /my-image (Bearer token + link da foto)
+API -> MW: Valida token
+alt Usuário não autenticado
+    API --> C: 401 Não autorizado
+else Usuário autenticado
+    MW --> API: userId
+    API -> DB: Atualiza foto de perfil do usuário
+    DB --> API: Atualizado
+    API --> C: 200 OK
+@enduml

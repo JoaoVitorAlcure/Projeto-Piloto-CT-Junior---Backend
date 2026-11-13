@@ -1,0 +1,23 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+database "Banco de Dados" as DB
+
+U -> C: Preenche nome, email e senha
+C -> API: POST /user
+alt Senha com menos de 6 caracteres
+    API --> C: 400 Bad Request
+else Senha válida
+    API -> DB: Verifica se o email já existe
+    DB --> API: Resultado
+    alt Email já cadastrado
+        API --> C: 409 Conflict
+    else Email disponível
+        API -> DB: Cria usuário
+        DB --> API: Usuário criado
+        API --> C: 201 Created
+        C --> U: Cadastro concluído
+    end
+end
+@enduml

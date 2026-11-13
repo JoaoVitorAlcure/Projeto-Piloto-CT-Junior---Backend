@@ -1,4 +1,4 @@
-import { expect, describe, it, beforeEach, vi, afterEach } from 'vitest'
+import { expect, describe, it, beforeEach, vi } from 'vitest'
 import { hash } from 'bcryptjs'
 import { InMemoryEmailsRepository } from '../repositories/in-memory/in-memory-emails-repository'
 import { GetReceivedEmailsUseCase } from './get-received-emails'

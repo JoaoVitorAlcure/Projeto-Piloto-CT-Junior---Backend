@@ -1,0 +1,25 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Solicita exclusão de um email
+C -> API: DELETE /email/{emailId} (Bearer token)
+API -> MW: Valida token
+MW --> API: userId
+API -> DB: Busca email por id
+DB --> API: Email (ou nulo)
+alt Email não encontrado
+    API --> C: 404 Not Found
+else Email encontrado
+    alt Usuário é o remetente
+        API -> DB: Remove email
+        DB --> API: Removido
+        API --> C: 200 OK
+    else Outro usuário
+        API --> C: 401 Não autorizado
+    end
+end
+@enduml

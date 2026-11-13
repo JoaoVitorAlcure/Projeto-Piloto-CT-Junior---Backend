@@ -1,7 +1,5 @@
-import type { Email, User } from "@prisma/client"
-import type { EmailRepository } from "../repositories/email-repository"
+import type { User } from "@prisma/client"
 import type { UserRepository } from "../repositories/user-repository"
-import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 import { UserNotFoundError } from "./errors/user-not-found-error"
 
 interface GetProfileRequest{

@@ -1,0 +1,18 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Informa novo nome
+C -> API: PATCH /my-name (Bearer token + nome)
+API -> MW: Valida token
+alt Usuário não autenticado
+    API --> C: 401 Não autorizado
+else Usuário autenticado
+    MW --> API: userId
+    API -> DB: Atualiza nome do usuário
+    DB --> API: Atualizado
+    API --> C: 200 OK
+@enduml

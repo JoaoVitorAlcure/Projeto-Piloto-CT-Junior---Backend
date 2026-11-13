@@ -1,0 +1,17 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+participant "Rota protegida" as R
+
+U -> C: Ação que exige login
+C -> API: Requisição + Authorization: Bearer token
+API -> MW: Valida token
+alt Token ausente ou inválido
+    MW --> C: 401 Unauthorized
+else Token válido
+    MW -> R: Repassa requisição com userId
+    R --> C: Resposta da rota
+end
+@enduml

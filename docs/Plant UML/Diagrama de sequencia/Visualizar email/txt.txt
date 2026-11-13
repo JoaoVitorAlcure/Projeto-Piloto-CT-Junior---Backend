@@ -1,0 +1,26 @@
+@startuml
+actor "Usuário" as U
+participant "Cliente" as C
+participant "API" as API
+participant "Middleware JWT" as MW
+database "Banco de Dados" as DB
+
+U -> C: Abre um email
+C -> API: GET /email/{id} (Bearer token)
+API -> MW: Valida token
+MW --> API: userId
+API -> DB: Busca email por id
+DB --> API: Email (ou nulo)
+alt Email não encontrado
+    API --> C: 404 Not Found
+else Email encontrado
+    alt Usuário é remetente ou destinatário
+        opt Usuário é o destinatário
+            API -> DB: Marca jaVisto = true
+        end
+        API --> C: 200 OK + título, conteúdo, enviado_por
+    else Outro usuário
+        API --> C: 401 Não autorizado
+    end
+end
+@enduml
